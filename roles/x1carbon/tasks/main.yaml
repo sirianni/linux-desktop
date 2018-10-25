@@ -1,0 +1,14 @@
+# See https://askubuntu.com/a/991391/25823
+- name: Xorg.conf fix for screen tearing with Intel graphics
+  copy:
+    src: 20-intel-graphics.conf
+    dest: /etc/X11/xorg.conf.d/
+- name: Copy fractional display scaling script
+  copy:
+    src: display_scale.sh
+    dest: "/home/{{ username }}/bin/"
+    mode: a+x
+- name: Set fractional display scaling script to launch on startup
+  template:
+    src: display_scale.sh.desktop.j2
+    dest: "/home/{{ username }}/.config/autostart/display_scale.sh.desktop"

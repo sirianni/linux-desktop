@@ -1,0 +1,19 @@
+- name: Install zsh
+  apt: package=zsh
+- name: Install git
+  apt: package=git
+- name: Git clone dotfiles
+  become: yes
+  become_user: "{{ username }}"
+  git:
+    repo: git@bitbucket.org:sirianni/dotfiles.git
+    dest: /home/{{ username }}/dotfiles
+    accept_hostkey: yes
+- name: Symlink dotfiles
+  become: yes
+  become_user: "{{ username }}"
+  command: /home/{{ username }}/dotfiles/script/bootstrap -f
+- name: Set shell to zsh
+  user:
+    name: "{{ username }}"
+    shell: /bin/zsh

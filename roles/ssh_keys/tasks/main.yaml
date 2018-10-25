@@ -1,0 +1,19 @@
+- name: Ensure .ssh directory exists
+  file:
+    dest: /home/{{ username }}/.ssh
+    mode: 0700
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+- name: Copy ssh private key
+  when: ssh_private_key is defined
+  copy:
+    src: "{{ssh_private_key}}"
+    dest: /home/{{ username }}/.ssh/id_rsa
+    mode: 0600
+    owner: "{{ username }}"
+    group: "{{ username }}"
+- name: Add authorized keys
+  authorized_key:
+    user: "{{ username }}"
+    key: https://github.com/sirianni.keys

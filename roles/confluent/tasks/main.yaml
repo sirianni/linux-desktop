@@ -1,0 +1,14 @@
+- name: Check if Zoom is installed
+  shell: dpkg-query -W -f='${Status}' zoom | grep 'install ok installed'
+  register: is_installed
+  failed_when: no
+  changed_when: no
+- name: Install Zoom
+  block:
+    - name: Download Zoom
+      get_url:
+        url: https://zoom.us/client/latest/zoom_amd64.deb
+        dest: /tmp/
+    - name: Install Zoom
+      command: dpkg -i /tmp/zoom_amd64.deb
+  when: is_installed.rc != 0

@@ -1,0 +1,46 @@
+---
+- hosts: localhost
+  vars:
+    username: sirianni
+  become: yes
+  pre_tasks:
+    - name: Add localhost to /etc/ansible/hosts
+      lineinfile:
+        dest: /etc/ansible/hosts
+        state: present
+        regexp: '^localhost'
+        line: 'localhost ansible_connection=local'
+  roles:
+    - sudo
+    - ssh_keys
+    - dotfiles
+    - x1carbon
+    - ngetchell.vscode
+    - confluent
+  tasks:
+    - name: Install terminator
+      package:
+        name: terminator
+        state: present
+    - name: Install build essential
+      package:
+        name: build-essential
+        state: present        
+    - name: Install chrome-gnome-shell
+      package:
+        name: chrome-gnome-shell
+        state: present
+    - name: Install vim
+      package:
+        name: vim
+        state: present
+    - name: Install system monitor dependencies
+      package:
+        name:
+          - gir1.2-gtop-2.0
+          - gir1.2-networkmanager-1.0
+          - gir1.2-clutter-1.0
+    - name: Install xclip
+      package:
+        name: xclip
+        state: present
