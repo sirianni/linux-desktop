@@ -44,3 +44,5 @@
       package:
         name: xclip
         state: present
+    - name: Install IntelliJ
+      command: snap install intellij-idea-ultimate --classic
