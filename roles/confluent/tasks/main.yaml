@@ -12,3 +12,5 @@
     - name: Install Zoom
       command: dpkg -i /tmp/zoom_amd64.deb
   when: is_installed.rc != 0
+- name: Install Slack
+  command: snap install slack
