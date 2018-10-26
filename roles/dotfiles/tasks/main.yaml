@@ -6,7 +6,7 @@
   become: yes
   become_user: "{{ username }}"
   git:
-    repo: git@bitbucket.org:sirianni/dotfiles.git
+    repo: git@github.com:sirianni/dotfiles.git
     dest: /home/{{ username }}/dotfiles
     accept_hostkey: yes
 - name: Symlink dotfiles
