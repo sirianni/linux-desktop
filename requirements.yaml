@@ -1,2 +1,4 @@
 ---
   - src: ngetchell.vscode
+  - src: geerlingguy.nodejs
+  - src: geerlingguy.docker

@@ -3,6 +3,7 @@ Ansible Playbook for provisioning Ubuntu deskktop on Thinkpad X1 Carbon.
 
 # Commands
 ```
+$ ansible-galaxy install -r requirements.yaml
 $ sudo ansible-playbook desktop.yaml --connection=local
 ```
 

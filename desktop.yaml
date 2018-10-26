@@ -15,24 +15,23 @@
     - ssh_keys
     - dotfiles
     - x1carbon
-    - ngetchell.vscode
     - confluent
   tasks:
-    - name: Install terminator
+    - name: Install basic utilities
       package:
-        name: terminator
+        name:
+          - vim
+          - terminator
+          - build-essential
+          - curl
+          - httpie
+          - xclip
+          - apt-file
+          - cifs-utils
         state: present
-    - name: Install build essential
-      package:
-        name: build-essential
-        state: present        
     - name: Install chrome-gnome-shell
       package:
         name: chrome-gnome-shell
-        state: present
-    - name: Install vim
-      package:
-        name: vim
         state: present
     - name: Install system monitor dependencies
       package:
@@ -40,9 +39,31 @@
           - gir1.2-gtop-2.0
           - gir1.2-networkmanager-1.0
           - gir1.2-clutter-1.0
-    - name: Install xclip
+    - name: Install Java
       package:
-        name: xclip
+        name: default-jdk
         state: present
+    - name: Install NodeJS
+      include_role:
+        name: geerlingguy.nodejs
+      vars:
+        nodejs_version: 11.x
+    - name: Install basic utilities from NPM
+      become: no
+      npm:
+        name: "{{ item }}"
+        global: yes
+      loop:
+        - tldr
+        - npx
+    - name: Install Docker
+      include_role:
+        name: geerlingguy.docker
+      vars:
+        docker_users: [ sirianni ]
+        docker_apt_repository: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
     - name: Install IntelliJ
       command: snap install intellij-idea-ultimate --classic
+    - name: Install VS Code
+      include_role:
+        name: ngetchell.vscode

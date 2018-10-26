@@ -1,9 +1,9 @@
 - name: Check if Zoom is installed
   shell: dpkg-query -W -f='${Status}' zoom | grep 'install ok installed'
-  register: is_installed
+  register: zoom_is_installed
   failed_when: no
   changed_when: no
-- name: Install Zoom
+- name: Download and install Zoom
   block:
     - name: Download Zoom
       get_url:
@@ -11,6 +11,6 @@
         dest: /tmp/
     - name: Install Zoom
       command: dpkg -i /tmp/zoom_amd64.deb
-  when: is_installed.rc != 0
+  when: zoom_is_installed.rc != 0
 - name: Install Slack
   command: snap install slack
