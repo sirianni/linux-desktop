@@ -24,7 +24,6 @@
           - terminator
           - build-essential
           - curl
-          - httpie
           - xclip
           - apt-file
           - cifs-utils
@@ -67,3 +66,19 @@
     - name: Install VS Code
       include_role:
         name: ngetchell.vscode
+    - name: Install hub
+      block:
+        - name: Add cpick PPA
+          apt_repository:
+            repo: ppa:cpick/hub
+            codename: bionic
+        - name: Install hub from PPA
+          package:
+            name: hub
+            state: present
+    - name: Install additional utilities
+      package:
+        name:
+          - cloc
+          - httpie
+        state: present
