@@ -40,21 +40,19 @@
           - gir1.2-clutter-1.0
     - name: Install Java
       package:
-        name: default-jdk
+        name:
+          - openjdk-8-jdk
+          - openjdk-8-source
+          - openjdk-11-jdk
+          - openjdk-11-source
         state: present
     - name: Install NodeJS
       include_role:
         name: geerlingguy.nodejs
       vars:
         nodejs_version: 11.x
-    - name: Install basic utilities from NPM
-      become: no
-      npm:
-        name: "{{ item }}"
-        global: yes
-      loop:
-        - tldr
-        - npx
+        npm_config_prefix: /home/{{ username }}/npm
+        nodejs_npm_global_packages: [ tldr, npx ]
     - name: Install Docker
       include_role:
         name: geerlingguy.docker
@@ -66,7 +64,7 @@
     - name: Install VS Code
       include_role:
         name: ngetchell.vscode
-    - name: Install hub
+    - name: Install hub (GitHub CLI)
       block:
         - name: Add cpick PPA
           apt_repository:
@@ -81,4 +79,16 @@
         name:
           - cloc
           - httpie
+          - gist
+          - ack
         state: present
+    - name: Install python packages
+      package:
+        name:
+          - python3-venv
+          - python3-pip
+        state: present
+    - name: Increase file watcher limit
+      copy:
+        src: 20-file-watchers.conf
+        dest: /etc/sysctl.d/
